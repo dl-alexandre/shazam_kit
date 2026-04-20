@@ -14,6 +14,7 @@ defmodule ShazamKit.TokenCache do
   @refresh_buffer_seconds 60
 
   @doc "Start the cache under a supervisor."
+  @spec start_link(keyword()) :: GenServer.on_start()
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, :ok, Keyword.put_new(opts, :name, __MODULE__))
   end
@@ -25,6 +26,7 @@ defmodule ShazamKit.TokenCache do
   end
 
   @doc "Forget the cached token. Primarily useful in tests and after 401s."
+  @spec clear(GenServer.server()) :: :ok
   def clear(server \\ __MODULE__) do
     GenServer.call(server, :clear)
   end
