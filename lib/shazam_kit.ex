@@ -118,7 +118,7 @@ defmodule ShazamKit do
   """
   @spec get_track(String.t(), opts) :: response
   def get_track(track_id, opts \\ []) when is_binary(track_id) do
-    Client.get("/v1/catalog/tracks/#{track_id}", opts)
+    Client.get("/v1/catalog/tracks/#{URI.encode_www_form(track_id)}", opts)
   end
 
   @doc """
@@ -165,7 +165,7 @@ defmodule ShazamKit do
   def get_chart(opts \\ []) do
     endpoint =
       if city_id = Keyword.get(opts, :city_id) do
-        "/v1/charts/cities/#{city_id}"
+        "/v1/charts/cities/#{URI.encode_www_form(to_string(city_id))}"
       else
         "/v1/charts/world"
       end
@@ -195,12 +195,10 @@ defmodule ShazamKit do
   @spec valid_signature?(String.t()) :: boolean()
   def valid_signature?(signature) when is_binary(signature) do
     # Basic validation: signatures are typically base64 and have minimum length
-    try do
-      decoded = Base.decode64!(signature)
+    case Base.decode64(signature) do
       # Shazam signatures have a specific header format
-      byte_size(decoded) >= 16
-    rescue
-      _ -> false
+      {:ok, decoded} -> byte_size(decoded) >= 16
+      :error -> false
     end
   end
 

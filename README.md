@@ -16,7 +16,7 @@ Add to your `mix.exs`:
 ```elixir
 defp deps do
   [
-    {:shazam_kit, "~> 0.1.0"}
+    {:shazam_kit, "~> 0.3.0"}
   ]
 end
 ```

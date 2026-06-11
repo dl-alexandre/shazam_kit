@@ -1,7 +1,7 @@
 defmodule ShazamKit.MixProject do
   use Mix.Project
 
-  @version "0.2.0"
+  @version "0.3.0"
   @source_url "https://github.com/dl-alexandre/shazam_kit"
 
   def project do
@@ -34,6 +34,8 @@ defmodule ShazamKit.MixProject do
       {:req, "~> 0.5"},
       {:jose, "~> 1.11"},
       {:bypass, "~> 2.1", only: :test},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false}
     ]
   end

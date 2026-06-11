@@ -35,7 +35,8 @@ defmodule ShazamKit.Token do
         {_, compact} = JOSE.JWT.sign(jwk, header, claims) |> JOSE.JWS.compact()
         {:ok, compact}
       rescue
-        e -> {:error, {:token_generation_failed, Exception.message(e)}}
+        e in [ArgumentError, MatchError, ErlangError, File.Error] ->
+          {:error, {:token_generation_failed, Exception.message(e)}}
       end
     end
   end
